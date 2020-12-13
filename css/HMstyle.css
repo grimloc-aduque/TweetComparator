@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Mukta Malar', sans-serif;
+}
+
+.main{
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(../public/lukasz-niescioruk-ASiOhQrBdbI-unsplash.jpg);
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+}
+
+section{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+section header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+section header ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section header ul li {
+  list-style: none;
+  margin-left: 20px;
+}
+
+section header ul li a {
+  color: #111;
+  text-decoration: none;
+  font-size: 54px;
+  font-weight: 500px;
+}
+
+.input-g {
+  top: 35%;
+  position: absolute;
+  width: 30%;
+  transition: .05s;
+  color: #FFFBF0;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  color: #fff;
+  border-bottom: 1px solid #999;
+  outline: none;
+  background: transparent;
+}
+
+.submit-btn {
+  width: 85%;
+  padding: 10px 30px;
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  background: #FFFBF0;
+  border: 0;
+  font-size: 14px;
+  outline: none;
+  border-radius: 30px;
+}

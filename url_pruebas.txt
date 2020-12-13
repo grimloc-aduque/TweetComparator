@@ -1,0 +1,16 @@
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=screen_name&numTweets=5&busqueda1=Disney&busqueda2=realDonaldTrump
+
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=screen_name&numTweets=10&busqueda1=Disney&busqueda2=netflix
+
+
+
+
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=hashtag&numTweets=5&busqueda1=cyberpunk&busqueda2=spiderman
+
+
+
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=hashtag&numTweets=5&busqueda1=africa&busqueda2=asia
+
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=hashtag&numTweets=5&busqueda1=ps4&busqueda2=xbox
+
+http://localhost/webdev2/Proyecto/Proyecto_Tweeter_Codigo/index.php?tipoBusqueda=hashtag&numTweets=5&busqueda1=europe&busqueda2=america
