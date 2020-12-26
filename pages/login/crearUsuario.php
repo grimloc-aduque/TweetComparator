@@ -1,5 +1,5 @@
 <?php
-include("funciones_db.php");
+include("../funciones_db.php");
 
 
 session_start();
@@ -13,9 +13,10 @@ if (array_key_exists('user',  $_POST) && array_key_exists('mail', $_POST) && arr
     insertUser($connection, $user, $mail, sha1($password));
     
     if(consultarUsuario($connection, $user, $password)!=null){
-        setcookie("user", $user, time() + 60000);		
+        //setcookie("user", $user, time() + 60000);		
         $_SESSION['auth'] = true;
-        header("Location: ../index.php");
+        $_SESSION["user"] = $user;
+        header("Location: ../../index.php");
         
     }
 }

@@ -1,9 +1,11 @@
-/* hero = main */
 *{
   margin: 0;
   padding: 0;
   font-family: 'Mukta Malar', sans-serif;
   font-weight: 500;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
 }
 
 .main{
@@ -46,6 +48,7 @@ p1 {
   position: relative;
 }
 
+
 #btn {
   top: 0;
   left: 0;
@@ -55,7 +58,7 @@ p1 {
   background: #FFFBF0 ;
   color: #fff;
   border-radius: 30px;
-  transition: .5s;
+  transition: .7s;
 }
 
 .input-g {
@@ -108,3 +111,9 @@ span {
 #register {
   left: 450px;
 }
+
+body {
+  font-family: 'Mukta Malar', sans-serif;
+}
+
+

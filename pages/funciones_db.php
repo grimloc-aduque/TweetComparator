@@ -74,41 +74,31 @@
 
 
     // TWEET
-    function insertTweet($connection, $id, $screen_name, $date, $text, $favorite_count, $retweet_count, $hashtags, $user_mentions){
-        $query = "INSERT INTO tweet (tweet_id, screen_name, date, text, favorite_count, retweet_count, hashtags, user_mentions)  
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    function insertTweet($connection, $id, $busqueda, $screen_name, $date, $text, $link, $favorite_count, $retweet_count, $hashtags, $user_mentions){
+        $query = "INSERT INTO tweet (tweet_id, busqueda, screen_name, date, text, link, favorite_count, retweet_count, hashtags, user_mentions)  
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if($insert = mysqli_prepare($connection, $query)){
-            mysqli_stmt_bind_param($insert, 'isssiiss', $id, $screen_name, $date, $text, $favorite_count, $retweet_count, $hashtags, $user_mentions);
+            mysqli_stmt_bind_param($insert, 'isssssiiss', $id, $busqueda, $screen_name, $date, $text, $link, $favorite_count, $retweet_count, $hashtags, $user_mentions);
             mysqli_stmt_execute($insert);
         } 
         mysqli_stmt_close($insert);
     }
 
 
-    function getQuery($select, $tipoBusqueda, $recordId, $busqueda){
-        if($tipoBusqueda == "hashtag"){
-            $query = "SELECT " . $select. " 
-                        FROM tweet, record_tweet 
-                        WHERE record_tweet.record_id = " . $recordId ." AND tweet.tweet_id = record_tweet.tweet_id  
-                            AND tweet.hashtags LIKE \"%".$busqueda."%\" 
-                            ORDER BY tweet.date DESC;";
-            
-        }else if($tipoBusqueda == "screen_name"){
-
-            $query = "SELECT " . $select . "  
-                        FROM tweet, record_tweet 
-                        WHERE (record_tweet.record_id = " . $recordId ." AND tweet.tweet_id = record_tweet.tweet_id  
-                            AND tweet.user_mentions LIKE \"%".$busqueda."%\" )
-                            ORDER BY tweet.date DESC;" ;
-        }
+    function getQuery($select, $recordId, $busqueda){
+        //AND tweet.busqueda = \"". $busqueda. "\"
+        $query = "SELECT " . $select . "  
+                    FROM tweet, record_tweet 
+                    WHERE record_tweet.record_id = " . $recordId ." AND tweet.tweet_id = record_tweet.tweet_id  
+                        AND tweet.busqueda = \"". $busqueda. "\"
+                        ORDER BY tweet.date;" ; 
         return $query;
-
     }
 
 
-    function getTweets($connection, $tipoBusqueda, $recordId, $busqueda){
-        $select = "tweet.tweet_id, tweet.screen_name, tweet.date, tweet.text, tweet.favorite_count, tweet.retweet_count, tweet.hashtags, tweet.user_mentions";
-        $query = getQuery($select, $tipoBusqueda, $recordId, $busqueda);
+    function getTweets($connection, $recordId, $busqueda){
+        $select = "tweet.screen_name, tweet.date, tweet.text, tweet.link, tweet.favorite_count, tweet.retweet_count, tweet.hashtags, tweet.user_mentions";
+        $query = getQuery($select, $recordId, $busqueda);
         //console_log($query);
         $result = mysqli_query($connection, $query);
         return mysqli_fetch_all ($result, MYSQLI_ASSOC);
@@ -129,47 +119,32 @@
 
 
     // Data Gráficas
-    function getTimelineData($connection, $tipoBusqueda, $recordId, $busqueda){
+    function getTimelineData($connection, $recordId, $busqueda){
         $select = "tweet.date, tweet.retweet_count, tweet.favorite_count";
-        $query = getQuery($select, $tipoBusqueda, $recordId, $busqueda);
+        $query = getQuery($select, $recordId, $busqueda);
         $result = mysqli_query($connection, $query);
         return mysqli_fetch_all ($result, MYSQLI_ASSOC);
     }
 
 
     
-    function getAvgRetweet($connection, $tipoBusqueda, $recordId, $busqueda){
+    function getAvgRetweet($connection, $recordId, $busqueda){
         $select = "AVG(tweet.retweet_count)";
-        $query = getQuery($select, $tipoBusqueda, $recordId, $busqueda);
+        $query = getQuery($select, $recordId, $busqueda);
         $result = mysqli_query($connection, $query);
         return mysqli_fetch_all ($result)[0][0];
     }
 
 
 
-    function getAvgFavorite($connection, $tipoBusqueda, $recordId, $busqueda){
+    function getAvgFavorite($connection, $recordId, $busqueda){
         $select = "AVG(tweet.favorite_count)";
-        $query = getQuery($select, $tipoBusqueda, $recordId, $busqueda);
+        $query = getQuery($select, $recordId, $busqueda);
         $result = mysqli_query($connection, $query);
         return mysqli_fetch_all ($result)[0][0]; 
     }
 
 
 
-
-    // OTROS
-
-    function console_log( $data ){
-        echo '<script>';
-        echo 'console.log('. json_encode( $data ) .')';
-        echo '</script>';
-    }
-
-    function redireccionar($url){
-        //console_log($GLOBALS['redireccion']);
-        if( array_key_exists("redireccion", $GLOBALS) && $GLOBALS["redireccion"]==true ){
-            header("Location: ./" . $url);
-        }
-    }
 
 ?>

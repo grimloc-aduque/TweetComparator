@@ -1,10 +1,5 @@
 <?php
 
-
-    include("./apis/TwitterAPIExchange.php");
-    // ------------------------  INDEX  ------------------------
-
-
     function tweeterApiExchange($tipoBusqueda, $busqueda, $numTweets){
         $settings = array(
             'oauth_access_token' => "1318549926406664195-EbsgYH8ssGIkObFFZGHHxJnQFsbVZQ",
@@ -42,10 +37,7 @@
 
 
 
-    function extraerTweets( $connection, $tipoBusqueda, $recordId, $numTweets, $busqueda ){
-
-        $tweets = tweeterApiExchange($tipoBusqueda, $busqueda, $numTweets);
-
+    function extraerTweets( $connection, $busqueda, $tweets, $recordId ){
         foreach($tweets as $tweet){
             //console_log($tweet);
             $tweet_id = $tweet["id"];
@@ -72,11 +64,15 @@
             //console_log($user_mentions);
             
             $date = date("Y-m-d H:i:s", strtotime($date));
-            $text = $tweet["full_text"];
+            $fulltext = $tweet["full_text"];
+            $index_link = strrpos($fulltext, "http");
+            $text =  substr($fulltext, 0, $index_link);
+            $link = substr($fulltext, $index_link);
+
             $favorite_count = $tweet["favorite_count"];
             $retweet_count = $tweet["retweet_count"];
             
-            insertTweet($connection, $tweet_id, $screen_name, $date, $text, $favorite_count, $retweet_count, $hashtags, $user_mentions);
+            insertTweet($connection, $tweet_id, $busqueda, $screen_name, $date, $text, $link, $favorite_count, $retweet_count, $hashtags, $user_mentions);
             insertRecordTweet($connection, $recordId, $tweet_id);
         }
     }
@@ -85,13 +81,18 @@
 
     function crearComparacion($connection, $user, $tipoBusqueda, $numTweets, $busqueda1, $busqueda2){
         
-        insertRecord($connection, $user, $tipoBusqueda, $busqueda1, $busqueda2);
-        $recordId = getLastRecordId($connection);
-        console_log($recordId);
-        extraerTweets( $connection, $tipoBusqueda, $recordId, $numTweets, $busqueda1 );
-        extraerTweets( $connection, $tipoBusqueda, $recordId, $numTweets, $busqueda2 );
-
-        return $recordId;
+        $tweets1 = tweeterApiExchange($tipoBusqueda, $busqueda1, $numTweets);
+        $tweets2 = tweeterApiExchange($tipoBusqueda, $busqueda2, $numTweets);
+        if(!$tweets1 || !$tweets2 ){
+            return false;
+        }else{
+            insertRecord($connection, $user, $tipoBusqueda, $busqueda1, $busqueda2);
+            $recordId = getLastRecordId($connection);
+            extraerTweets( $connection, $busqueda1, $tweets1, $recordId);
+            extraerTweets( $connection, $busqueda2, $tweets2, $recordId);
+            //return false;
+            return $recordId;
+        }     
     }
 
 ?>
