@@ -1,2 +1,2 @@
 # Tweet Comparator
-Compare trends on twitter
+Compare trends on twitter 
